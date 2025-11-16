@@ -1,175 +1,106 @@
-# Meno
-Think deeper, think Critically
+Think Deeper AI
 
-🧠 AI Think Provoker — A Tool to Force Deep Thinking
-“Don’t ask AI for answers — ask it to challenge your thinking.” 
+Think Deeper AI is an interactive web app that helps users practice critical thinking. Users ask a question, receive an AI-generated answer with intentional flaws, and then challenge and revise the AI’s response. The AI provides feedback on the user’s reasoning, fostering metacognitive skills.
 
-This web app uses AI not as an oracle, but as a Socratic provocateur — forcing users to question assumptions, justify reasoning, and revise their own thinking.
+🧩 Features
 
-🎯 Mission: Cultivate critical thinking in the age of AI by making users think harder, not just get faster answers.
+Ask a question: Receive a plausible but flawed AI response.
 
-🚀 Demo
-👉 Live Demo (Coming Soon)
-(Deploy your own using the instructions below!)
+Challenge the AI: Identify flaws, assumptions, or gaps in reasoning.
 
-📷 Screenshot
-AI Think Provoker Screenshot
+Revise the answer: Improve or correct the AI’s response.
 
-(Replace with actual screenshot after you build it!)
+AI feedback: Get constructive feedback on your reasoning and metacognition.
 
-💡 Core Features
-✅ AI as Devil’s Advocate — Generates plausible but flawed responses to provoke critical thinking
-✅ User Challenge Phase — Identify assumptions, gaps, or errors in AI’s answer
-✅ Revision Mode — Rewrite or improve the AI’s response
-✅ Metacognitive Feedback — AI reflects on how you thought, not just what you said
-✅ Simple, Clean UI — Built for focus, not distraction
-✅ Secure API Key Handling — Uses .env or backend proxy — never exposed in browser
+Responsive UI: Works across desktop and mobile.
 
-🛠️ Tech Stack
-Frontend: HTML, CSS, JavaScript (Vanilla or Vite)
-AI Backend: OpenAI GPT-3.5-turbo (or Mistral via Hugging Face)
-Environment: .env + Vite (local dev) or Node.js proxy (production)
-Hosting: Vercel, GitHub Pages, or Netlify
-Security: API keys never exposed client-side
-📦 Getting Started
-Prerequisites
-Node.js (v18+)
-npm or yarn
-OpenAI API Key (get one here )
-📁 Option 1: Local Dev with Vite + .env
-bash
+🚀 Tech Stack
 
-Collapse
-Save
-Copy
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-# Clone repo
-git clone https://github.com/yourusername/ai-think-provoker.git
-cd ai-think-provoker
+Frontend: HTML, CSS, JavaScript
 
-# Install dependencies
-npm install
+Backend: Python, Flask
 
-# Create .env file
-echo "VITE_OPENAI_API_KEY=your_api_key_here" > .env
+API: Change Agent (pilot.thechange.ai)
 
-# Start dev server
-npm run dev
-🌐 Open http://localhost:5173 — you’re ready to think deeper! 
+Environment management: .env file for API keys
 
-📁 Option 2: Production with Backend Proxy
-bash
+CORS support: Enabled for local development
 
-Collapse
-Save
-Copy
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-# Clone repo
-git clone https://github.com/yourusername/ai-think-provoker.git
-cd ai-think-provoker
+⚙️ Setup Instructions
+1. Clone the repository
+git clone https://github.com/yourusername/think-deeper-ai.git
+cd think-deeper-ai
 
-# Start backend proxy
-cd backend
-npm install
-node index.js
+2. Create a Python environment
+python -m venv venv
+source venv/bin/activate   # macOS/Linux
+venv\Scripts\activate      # Windows
 
-# Start frontend (in another terminal)
-cd ..
-npm run dev
-🌐 Frontend runs on http://localhost:5173 → calls backend on http://localhost:3001 
+3. Install dependencies
+pip install -r requirements.txt
 
-🔐 Security Note
-⚠️ Never commit .env to Git!
-Add .env to .gitignore: 
 
-bash
+requirements.txt should include:
 
-Collapse
-Save
-Copy
-1
-echo ".env" >> .gitignore
-For public deployments, always use a backend proxy to hide your API key.
+Flask
+flask-cors
+requests
+python-dotenv
 
-🧪 Example Prompts to Try
-“Should schools ban cell phones?”
-“Is AI going to replace all jobs?”
-“Is capitalism the best economic system?”
-“Should we tax robots?”
-👉 Watch how AI responds — then challenge it!
+4. Add your API key
 
-🧩 Future Roadmap
+Create a .env file in the root directory:
 
-Add “Devil’s Advocate” toggle
+PILOT_API_KEY=your_change_agent_api_key_here
 
-Save user thinking history
+5. Run the backend
+python app.py
 
-Add educator dashboard
 
-Mobile app version (React Native / Flutter)
+The backend will run at: http://localhost:3001
 
-Integrate with Notion or Obsidian
+6. Open the frontend
 
-Gamification: badges for “Assumption Hunter”, “Logic Ninja”
-🤝 Contributing
-We welcome contributions! Whether you’re a developer, educator, or critical thinker — your input matters.
+Open index.html in your browser.
 
-Fork the repo
-Create your feature branch (git checkout -b feature/AmazingIdea)
-Commit your changes (git commit -am 'Add some amazing feature')
-Push to the branch (git push origin feature/AmazingIdea)
-Open a Pull Request
-📄 License
-This project is licensed under the MIT License — see the LICENSE file for details.
+Enter a question and click "Ask Question"
 
-🙏 Acknowledgments
-Inspired by the Socratic Method and metacognitive learning
-Built with ❤️ for students, educators, and lifelong learners
-Designed to resist AI complacency — not replace human thought
-📬 Contact
-Have questions? Want to collaborate?
-👉 [Your Email] | [Twitter/X] | [LinkedIn]
+Review the AI response
 
-🌟 Think deeper. Question harder. Revise boldly.
-— AI Think Provoker Team 
+Enter your challenge and revision, then click "Submit Your Thinking"
 
-📌 Quick Start Checklist
-✅ Clone repo
-✅ Get OpenAI API key
-✅ Set up .env or backend proxy
-✅ Run npm run dev
-✅ Ask AI a question — then challenge it!
-✅ Deploy to Vercel or Netlify (optional)
+View AI feedback
 
-🚀 Deploy Your Own
-Deploy with Vercel
+🔧 Project Structure
+think-deeper-ai/
+│
+├─ app.py               # Flask backend
+├─ script.js            # Frontend JavaScript
+├─ style.css            # Frontend CSS
+├─ index.html           # Frontend HTML
+├─ requirements.txt     # Python dependencies
+└─ .env                 # API key (not committed)
 
-(Replace yourusername with your GitHub username)
+⚠️ Notes
 
-📚 Learn More
-OpenAI API Docs
-Vite Documentation
-Critical Thinking Frameworks
-You’re not just building an app — you’re building a cognitive gym. Let’s make thinking harder, not easier. 💪🧠
+Make sure your backend is running before interacting with the frontend.
+
+Use the correct API endpoint: https://pilot.thechange.ai/api/chat/completions
+
+Use ChangeAgent as the model in API requests.
+
+Enable CORS for local development; it is already handled in app.py.
+
+🎯 Future Improvements
+
+Add loading spinners and visual indicators for asynchronous requests
+
+Save previous sessions and user challenges for review
+
+Improve UI with responsive layouts using Tailwind or another framework
+
+Deploy backend to a cloud provider for public access
+
+📜 License
+
+MIT License – feel free to use, modify, or distribute.

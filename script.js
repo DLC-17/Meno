@@ -1,3 +1,5 @@
+// script.js — polished frontend for Think Deeper AI
+
 const userInput = document.getElementById('userInput');
 const submitBtn = document.getElementById('submitBtn');
 const aiResponse = document.getElementById('aiResponse');
@@ -6,83 +8,59 @@ const userRevision = document.getElementById('userRevision');
 const submitChallenge = document.getElementById('submitChallenge');
 const aiFeedback = document.getElementById('aiFeedback');
 
-// Replace with your own OpenAI API key (for prototype only)
-const API_KEY = 'YOUR_OPENAI_API_KEY_HERE'; // ⚠️ Don't commit this!
-
-// Function to call AI with a *provocative* prompt
+/**
+ * Fetch AI response from backend
+ */
 async function getAIResponse(question) {
-  const prompt = `
-You are a critical thinking coach. Your job is to respond to the user's question in a way that is:
-- Inquisitive questioning until satisfied
-- Wanting to understand the fundamentals of the topic
-
-User question: "${question}"
-
-Respond as if you are a student asking the professor a question.
-`;
-
   try {
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    const response = await fetch('http://localhost:3001/api/ai-response', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${API_KEY}`
-      },
-      body: JSON.stringify({
-        model: 'gpt-3.5-turbo',
-        messages: [{ role: 'user', content: prompt }],
-        max_tokens: 300
-      })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question }),
     });
 
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || 'Unknown backend error');
+    }
+
     const data = await response.json();
-    return data.choices[0].message.content.trim();
+    return data.response;
+
   } catch (error) {
-    console.error('AI Error:', error);
-    return "Sorry, I couldn't generate a response. Try again.";
+    console.error('❌ AI Response Error:', error);
+    return "⚠️ Could not get a response. Check if backend is running.";
   }
 }
 
-// Function to get AI feedback on user's thinking
+/**
+ * Fetch AI feedback from backend
+ */
 async function getAIFeedback(challenge, revision) {
-  const prompt = `
-You are a metacognition coach. Your job is to give feedback on how the user thought, not what they said.
-
-User's challenge: "${challenge}"
-User's revision: "${revision}"
-
-Give feedback on:
-- Did they identify a real flaw or assumption?
-- Did they justify their reasoning?
-- Did they improve the original answer?
-- What cognitive skill did they demonstrate?
-
-Be specific, encouraging, and constructive.
-`;
-
   try {
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    const response = await fetch('http://localhost:3001/api/feedback', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${API_KEY}`
-      },
-      body: JSON.stringify({
-        model: 'gpt-3.5-turbo',
-        messages: [{ role: 'user', content: prompt }],
-        max_tokens: 200
-      })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ challenge, revision }),
     });
 
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.error || 'Unknown backend error');
+    }
+
     const data = await response.json();
-    return data.choices[0].message.content.trim();
+    return data.feedback;
+
   } catch (error) {
-    console.error('Feedback Error:', error);
-    return "I couldn't analyze your thinking. Try again.";
+    console.error('❌ Feedback Error:', error);
+    return "⚠️ Could not analyze your thinking. Check if backend is running.";
   }
 }
 
-// Event Listeners
+/**
+ * Event: User asks a question
+ */
 submitBtn.addEventListener('click', async () => {
   const question = userInput.value.trim();
   if (!question) {
@@ -90,11 +68,19 @@ submitBtn.addEventListener('click', async () => {
     return;
   }
 
-  aiResponse.textContent = 'Thinking...';
+  // Disable button while waiting
+  submitBtn.disabled = true;
+  aiResponse.textContent = '🤔 Thinking...';
+
   const response = await getAIResponse(question);
+
   aiResponse.textContent = response;
+  submitBtn.disabled = false;
 });
 
+/**
+ * Event: User submits challenge + revision
+ */
 submitChallenge.addEventListener('click', async () => {
   const challenge = userChallenge.value.trim();
   const revision = userRevision.value.trim();
@@ -104,7 +90,12 @@ submitChallenge.addEventListener('click', async () => {
     return;
   }
 
-  aiFeedback.textContent = 'Analyzing your thinking...';
+  // Disable button while waiting
+  submitChallenge.disabled = true;
+  aiFeedback.textContent = '🔎 Analyzing your thinking...';
+
   const feedback = await getAIFeedback(challenge, revision);
+
   aiFeedback.textContent = feedback;
+  submitChallenge.disabled = false;
 });
